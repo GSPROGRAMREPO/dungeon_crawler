@@ -49,7 +49,7 @@ class PlayerUI:
         self.screen.blit(name_text, (40, 132))
 
         # Display Character HP
-        hp_text = self.font.render('HP: ' + (str(player.health)), True, const.black)
+        hp_text = self.font.render('HP: ' + (str(player.get_player_health())), True, const.black)
         self.screen.blit(hp_text, (40, 158))
 
         # Display Character HP
@@ -72,9 +72,9 @@ class PlayerUI:
             if self.is_over(item_rect, mouse_pos):
                 if (items_worn[index] is not None):
                     self.screen.blit(self.stat_frame, mouse_pos)
-                    item_text = self.font.render(str(items_worn[index].item_description()),
+                    description_text = self.font.render(str(items_worn[index].item_description()),
                                                  True, const.black)
-                    self.screen.blit(item_text, text_pos)
+                    self.screen.blit(description_text, text_pos)
 
     @staticmethod
     def is_over(rect, pos):

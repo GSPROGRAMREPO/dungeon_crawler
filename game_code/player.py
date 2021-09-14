@@ -9,7 +9,8 @@ class Player():
     back_pack = []
 
     #Stat Stuff
-    health = 100
+    base_health = 100
+    total_health = 100
     mana = 100
     speed = 0
 
@@ -24,3 +25,19 @@ class Player():
     def get_backpack_items(self):
         list_to_return = self.back_pack
         return list_to_return
+
+    def get_player_health_multiplier(self):
+        total_multiplier_value = 1
+        for i in self.current_items:
+            if self.current_items[i] == None:
+                continue
+            else:
+                total_multiplier_value = total_multiplier_value + self.current_items[i].health_multiplier
+
+        return round(total_multiplier_value, 2)
+
+    def get_player_health(self):
+        self.total_health = round(self.base_health * self.get_player_health_multiplier())
+
+        return self.total_health
+

@@ -8,7 +8,7 @@ class Item():
     sprite_path = ''
 
     # Stats given to player
-    hp = 0
+    health_multiplier = 0
     defence = 0
     weight = 0
     physical_damage = 0
@@ -26,6 +26,4 @@ class Item():
 
     def item_description(self):
         description = (self.tier + ' ' + self.type)
-
         return description
-
