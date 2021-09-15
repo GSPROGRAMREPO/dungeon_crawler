@@ -72,9 +72,19 @@ class PlayerUI:
             if self.is_over(item_rect, mouse_pos):
                 if (items_worn[index] is not None):
                     self.screen.blit(self.stat_frame, mouse_pos)
-                    description_text = self.font.render(str(items_worn[index].item_description()),
-                                                 True, const.black)
-                    self.screen.blit(description_text, text_pos)
+                    # Test Code
+                    stats_to_print = items_worn[index].item_description()
+                    self.print_item_stats(stats_to_print, text_pos)
+
+
+    def print_item_stats(self, stats, text_pos):
+        y_offset = 16
+
+        for index, stat in enumerate(stats):
+            if index != 0:
+                text_pos = (text_pos[0], (text_pos[1] + (y_offset)))
+            item_text = self.font.render(str(stat), True, const.black)
+            self.screen.blit(item_text, text_pos)
 
     @staticmethod
     def is_over(rect, pos):

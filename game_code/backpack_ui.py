@@ -22,13 +22,11 @@ class BackpackUI:
         self.display_hover_information(player.get_backpack_items())
 
     def display_frames(self):
-
         # Blit the frames to the screen
         for frame in const.bpack_frame_locations:
             self.screen.blit(self.item_frame, frame)
 
     def display_items_in_backpack(self, items_in_back_pack):
-
         # Blit current Items
         for index, item in enumerate(items_in_back_pack):
             if item is not None:
@@ -37,18 +35,33 @@ class BackpackUI:
 
     def display_hover_information(self, back_pack):
         self.font.set_bold(True)
+        x_offset = 16
+        y_offset = 8
 
         # Get the position of the mouse
         mouse_pos = pygame.mouse.get_pos()
-        text_pos = (mouse_pos[0] + 16), (mouse_pos[1] + 8)
+        text_pos = (mouse_pos[0] + x_offset), (mouse_pos[1] + y_offset)
 
         for index, item in enumerate(back_pack):
             item_rect = pygame.Rect(const.bpack_frame_locations[index], (const.sprite_size))
             if self.is_over(item_rect, mouse_pos):
                 self.screen.blit(self.stat_frame, mouse_pos)
-                item_text = self.font.render(str(back_pack[index].item_description()),
-                                             True, const.black)
-                self.screen.blit(item_text, text_pos)
+                # Test Code
+                stats_to_print = back_pack[index].item_description()
+                self.print_item_stats(stats_to_print, text_pos)
+
+
+    def print_item_stats(self, stats, text_pos):
+        y_offset = 16
+
+        for index, stat in enumerate(stats):
+            if index != 0:
+                text_pos = (text_pos[0], (text_pos[1] + (y_offset)))
+            item_text = self.font.render(str(stat), True, const.black)
+            self.screen.blit(item_text, text_pos)
+
+
+        return
 
     @staticmethod
     def is_over(rect, pos):
@@ -59,8 +72,14 @@ class BackpackUI:
 
     def handle_right_click(self, player):
         mouse_pos = pygame.mouse.get_pos()
-        items_worn = player.get_current_items()
+        self.right_click_on_worn_items(player, mouse_pos)
+        self.right_click_on_backp_items(player, mouse_pos)
 
+        return
+
+    def right_click_on_worn_items(self, player, mouse_pos):
+
+        items_worn = player.get_current_items()
         for index, item in enumerate(items_worn):
             item_rect = pygame.Rect(const.worn_item_frame_locations[index], const.sprite_size)
             if self.is_over(item_rect, mouse_pos):
@@ -68,11 +87,12 @@ class BackpackUI:
                     if items_worn[index].slot == 'Armor':
                         player.back_pack.append(items_worn[index])
                         player.current_items[items_worn[index].type] = None
-
                     elif items_worn[index].slot == 'Weapon':
                         player.back_pack.append(items_worn[index])
                         player.current_items[items_worn[index].slot] = None
+        return
 
+    def right_click_on_backp_items(self, player, mouse_pos):
 
         for index, item in enumerate(player.back_pack):
             item_rect = pygame.Rect(const.bpack_frame_locations[index], (const.sprite_size))
@@ -81,10 +101,8 @@ class BackpackUI:
                     if player.current_items[item.type] == None:
                         player.current_items[item.type] = item
                         player.back_pack.remove(item)
-                if item.slot == 'Weapon':
+                elif item.slot == 'Weapon':
                     if player.current_items[item.slot] == None:
                         player.current_items[item.slot] = item
                         player.back_pack.remove(item)
-
-
         return
