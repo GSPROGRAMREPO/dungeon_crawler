@@ -1,0 +1,2 @@
+Change game resolution
+Scale Item description frames size to relect number of stats on item.
