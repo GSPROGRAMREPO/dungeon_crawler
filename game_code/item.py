@@ -26,7 +26,7 @@ class Item():
 
     def item_description(self):
         description = [(self.tier + ' ' + self.type),
-                       ('Life Multi: ' + str(self.health_multiplier) + '%'),
+                       ('Life Multi: ' + str(int(self.health_multiplier*100)) + '%'),
                        ('Weight: ' + str(self.weight)),
                        ('Defence: ' + str(self.defence))]
         return description

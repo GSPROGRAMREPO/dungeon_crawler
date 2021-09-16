@@ -1,11 +1,15 @@
 import pygame
 
+# UI Constants --------------------------
+
 sprite_size = (32,32)
 
-screen_size = (720,480)
+screen_size = (640,360)
 
 black = (0,0,0)
 red = (255,0,0)
+white = (255,255,255)
+tan = (177,120,62)
 
 worn_item_frame_locations = [(32, 32), (64, 32), (32, 64), (64, 64), (32, 96), (64, 96)]
 
@@ -17,3 +21,4 @@ bpack_frame_locations = [(192,32),(224,32),(256,32),(288,32),(320,32),(352,32),
 backpack_item_slots = [pygame.Rect(bpack_frame_locations[0], (sprite_size))]
 
 
+# Weapon Constants --------------------------

@@ -4,6 +4,7 @@ from game_code.player import Player
 from pygame.locals import *
 from game_code.player_ui import PlayerUI
 from game_code.backpack_ui import BackpackUI
+from game_code.dungeonui import DungeonUI
 
 
 class Engine:
@@ -12,6 +13,7 @@ class Engine:
     screen = pygame.display.set_mode(const.screen_size)
     player_ui = PlayerUI(screen)
     player_backpack_ui = BackpackUI(screen)
+    dungeon_ui = DungeonUI(screen)
 
     def __init__(self):
 
@@ -34,6 +36,7 @@ class Engine:
 
             self.screen.fill(const.black)
             self.player_ui.update_player_ui(self.player)
+            self.dungeon_ui.update_dungeon_ui()
 
             pygame.display.flip()
 
@@ -74,7 +77,7 @@ class Engine:
             font.set_bold(True)
             item_text = font.render("PAUSED", True, const.red)
 
-            screen.fill(const.black)
+            screen.fill(const.tan)
             screen.blit(item_text, (220, 100))
 
             pygame.display.flip()
