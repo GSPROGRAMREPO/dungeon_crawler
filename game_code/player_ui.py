@@ -53,8 +53,11 @@ class PlayerUI:
         self.screen.blit(hp_text, (40, 158))
 
         # Display Character HP
-        hp_text = self.font.render('MANA: ' + (str(player.mana)), True, const.black)
-        self.screen.blit(hp_text, (40, 170))
+        mana_text = self.font.render('MANA: ' + (str(player.mana)), True, const.black)
+        self.screen.blit(mana_text, (40, 170))
+
+        defence_text = self.font.render('DEF: ' + (str(player.get_player_defence())), True, const.black)
+        self.screen.blit(defence_text, (40, 182))
 
         return
 

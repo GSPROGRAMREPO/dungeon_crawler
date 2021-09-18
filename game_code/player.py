@@ -11,6 +11,8 @@ class Player():
     #Stat Stuff
     base_health = 100
     total_health = 100
+
+    defence = 0
     mana = 100
     speed = 0
 
@@ -40,4 +42,14 @@ class Player():
         self.total_health = round(self.base_health * self.get_player_health_multiplier())
 
         return self.total_health
+
+    def get_player_defence(self):
+        total_defence_value = 0
+        for i in self.current_items:
+            if self.current_items[i] == None:
+                continue
+            else:
+                total_defence_value = total_defence_value + self.current_items[i].defence
+
+        return total_defence_value
 

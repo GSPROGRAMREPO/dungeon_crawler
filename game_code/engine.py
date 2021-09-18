@@ -4,7 +4,7 @@ from game_code.player import Player
 from pygame.locals import *
 from game_code.player_ui import PlayerUI
 from game_code.backpack_ui import BackpackUI
-from game_code.dungeonui import DungeonUI
+from game_code.dungeon import Dungeon
 
 
 class Engine:
@@ -13,7 +13,7 @@ class Engine:
     screen = pygame.display.set_mode(const.screen_size)
     player_ui = PlayerUI(screen)
     player_backpack_ui = BackpackUI(screen)
-    dungeon_ui = DungeonUI(screen)
+    dungeon_ui = Dungeon(screen)
 
     def __init__(self):
 

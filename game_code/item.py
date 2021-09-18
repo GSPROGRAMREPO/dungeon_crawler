@@ -25,8 +25,25 @@ class Item():
         return
 
     def item_description(self):
-        description = [(self.tier + ' ' + self.type),
-                       ('Life Multi: ' + str(int(self.health_multiplier*100)) + '%'),
-                       ('Weight: ' + str(self.weight)),
-                       ('Defence: ' + str(self.defence))]
+        if self.slot == 'Weapon':
+            description = self.weapon_description()
+        if self.slot == 'Armor':
+            description = self.armor_description()
+
         return description
+
+    def weapon_description(self):
+        #Build Weapon Description
+        weapon_description = [(self.tier + ' ' + self.type),
+                           ('Weight: ' + str(self.weight))]
+
+        return weapon_description
+
+    def armor_description(self):
+        #Build Armor Description
+        armor_description = [(self.tier + ' ' + self.type),
+                           ('Life Multi: ' + str(int(self.health_multiplier*100)) + '%'),
+                           ('Weight: ' + str(self.weight)),
+                           ('Defence: ' + str(self.defence))]
+
+        return armor_description
