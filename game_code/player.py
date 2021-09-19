@@ -1,5 +1,7 @@
+import pygame
 class Player():
     name = "Gavin"
+    level = 1
 
     #Inventory Stuff
     current_items = {'Helmet': None, 'Weapon': None,
@@ -53,3 +55,6 @@ class Player():
 
         return total_defence_value
 
+    def get_player_sprite(self):
+        sprite = pygame.image.load('sprites/Dungeon/hero.png')
+        return sprite

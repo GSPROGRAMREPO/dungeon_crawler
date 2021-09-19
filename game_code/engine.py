@@ -1,5 +1,5 @@
 import sys, pygame
-from game_code import constants as const, generators
+from game_code import constants as const, item_generator
 from game_code.player import Player
 from pygame.locals import *
 from game_code.player_ui import PlayerUI
@@ -13,14 +13,14 @@ class Engine:
     screen = pygame.display.set_mode(const.screen_size)
     player_ui = PlayerUI(screen)
     player_backpack_ui = BackpackUI(screen)
-    dungeon_ui = Dungeon(screen)
+
 
     def __init__(self):
 
         return
 
     def game_loop(self):
-        self.give_player_random_item()
+        self.give_player_random_item(self.player.level)
 
         running = True
         while running:
@@ -31,13 +31,39 @@ class Engine:
                 if event.type == KEYDOWN:
                     if event.key == K_i:
                         self.backpack_loop()
+
+                    if event.key == K_k:
+                        self.dungeon_loop()
+
                     if event.key == K_ESCAPE:
                         self.pause_loop()
 
             self.screen.fill(const.black)
             self.player_ui.update_player_ui(self.player)
-            self.dungeon_ui.update_dungeon_ui()
+            pygame.display.flip()
 
+    def dungeon_loop(self):
+        dungeon_ui = Dungeon(self.screen, self.player)
+
+        in_dungeon = True
+        while in_dungeon:
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sys.exit()
+                if event.type == KEYDOWN:
+                    if event.key == K_i:
+                        self.backpack_loop()
+
+                    if event.key == K_k:
+                        in_dungeon = False
+
+                    if event.key == K_ESCAPE:
+                        self.pause_loop()
+
+            self.screen.fill(const.black)
+            self.player_ui.update_player_ui(self.player)
+            dungeon_ui.update_dungeon_ui()
             pygame.display.flip()
 
     def backpack_loop(self):
@@ -82,11 +108,11 @@ class Engine:
 
             pygame.display.flip()
 
-    def give_player_random_item(self):
+    def give_player_random_item(self, player_level):
 
         for i in range(20):
 
-            test_item = generators.item_generator(1)
+            test_item = item_generator.item_generator(player_level)
 
             # Handle if weapon
             if test_item.slot == 'Weapon':

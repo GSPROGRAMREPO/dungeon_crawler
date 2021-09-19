@@ -11,6 +11,7 @@ class Item():
     health_multiplier = 0
     defence = 0
     weight = 0
+
     physical_damage = 0
 
 
@@ -35,7 +36,8 @@ class Item():
     def weapon_description(self):
         #Build Weapon Description
         weapon_description = [(self.tier + ' ' + self.type),
-                           ('Weight: ' + str(self.weight))]
+                           ('Weight: ' + str(self.weight)),
+                              ('Phys Damage: ' + str(self.physical_damage))]
 
         return weapon_description
 
