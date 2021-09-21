@@ -74,6 +74,7 @@ class BackpackUI:
         mouse_pos = pygame.mouse.get_pos()
         self.right_click_on_worn_items(player, mouse_pos)
         self.right_click_on_backp_items(player, mouse_pos)
+        player.reset_player_health()
 
         return
 

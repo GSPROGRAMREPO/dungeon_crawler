@@ -12,7 +12,7 @@ class Player():
 
     #Stat Stuff
     base_health = 100
-    total_health = 100
+    current_health = 100
 
     defence = 0
     mana = 100
@@ -40,10 +40,12 @@ class Player():
 
         return round(total_multiplier_value, 2)
 
-    def get_player_health(self):
-        self.total_health = round(self.base_health * self.get_player_health_multiplier())
+    def get_player_current_health(self):
 
-        return self.total_health
+        return self.current_health
+
+    def reset_player_health(self):
+        self.current_health = round(self.base_health * self.get_player_health_multiplier())
 
     def get_player_defence(self):
         total_defence_value = 0
@@ -58,3 +60,20 @@ class Player():
     def get_player_sprite(self):
         sprite = pygame.image.load('sprites/Dungeon/hero.png')
         return sprite
+
+    def get_player_attack_damage(self):
+
+        damage = self.current_items['Weapon'].physical_damage
+
+        return damage
+
+    def is_alive(self):
+        if self.current_health > 0:
+            return True
+        else:
+            return False
+
+    def regen_health(self):
+        total_health = round(self.base_health * self.get_player_health_multiplier())
+        if self.current_health < total_health:
+            self.current_health = self.current_health + 1

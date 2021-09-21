@@ -49,7 +49,7 @@ class PlayerUI:
         self.screen.blit(name_text, (40, 132))
 
         # Display Character HP
-        hp_text = self.font.render('HP: ' + (str(player.get_player_health())), True, const.black)
+        hp_text = self.font.render('HP: ' + (str(player.current_health)), True, const.black)
         self.screen.blit(hp_text, (40, 158))
 
         # Display Character HP

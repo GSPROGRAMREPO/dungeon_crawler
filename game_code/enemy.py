@@ -7,18 +7,24 @@ class Enemy():
 
     name = "Enemy"
     level = 1
-    base_health = 100
+    health = 100
     base_damage = 10
 
     def get_enemy_sprite(self):
         sprite = pygame.image.load('sprites/Enemies/Skeleton1.png')
         return sprite
 
-    def get_enemy_damage(self):
+    def get_attack_damage(self):
         damage = self.base_damage
 
         return damage
 
     def get_enemy_health(self):
-        health = self.base_health
+        health = self.health
         return health
+
+    def is_alive(self):
+        if self.health > 0:
+            return True
+        else:
+            return False

@@ -20,5 +20,3 @@ bpack_frame_locations = [(192,32),(224,32),(256,32),(288,32),(320,32),(352,32),
 
 backpack_item_slots = [pygame.Rect(bpack_frame_locations[0], (sprite_size))]
 
-
-# Weapon Constants --------------------------

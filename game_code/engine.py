@@ -5,7 +5,7 @@ from pygame.locals import *
 from game_code.player_ui import PlayerUI
 from game_code.backpack_ui import BackpackUI
 from game_code.dungeon import Dungeon
-
+from game_code.combat_ui import CombatUI
 
 class Engine:
     pygame.init()
@@ -21,6 +21,7 @@ class Engine:
 
     def game_loop(self):
         self.give_player_random_item(self.player.level)
+        self.player.reset_player_health()
 
         running = True
         while running:
@@ -40,20 +41,21 @@ class Engine:
 
             self.screen.fill(const.black)
             self.player_ui.update_player_ui(self.player)
+            self.player.regen_health()
             pygame.display.flip()
 
     def dungeon_loop(self):
-        dungeon_ui = Dungeon(self.screen, self.player)
+        dungeon = Dungeon(self.screen, self.player)
+        combat_UI = CombatUI(self.screen, self.player, dungeon.enemy)
 
         in_dungeon = True
+
         while in_dungeon:
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sys.exit()
                 if event.type == KEYDOWN:
-                    if event.key == K_i:
-                        self.backpack_loop()
 
                     if event.key == K_k:
                         in_dungeon = False
@@ -61,9 +63,16 @@ class Engine:
                     if event.key == K_ESCAPE:
                         self.pause_loop()
 
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == 1:
+                        combat_UI.left_click_handler(pygame.mouse.get_pos())
+
             self.screen.fill(const.black)
             self.player_ui.update_player_ui(self.player)
-            dungeon_ui.update_dungeon_ui()
+
+            dungeon.update_dungeon_ui()
+            combat_UI.update_combat_ui()
+
             pygame.display.flip()
 
     def backpack_loop(self):
