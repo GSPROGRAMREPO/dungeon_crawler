@@ -34,7 +34,8 @@ class Engine:
                         self.backpack_loop()
 
                     if event.key == K_k:
-                        self.dungeon_loop()
+                        dungeon = Dungeon(self.screen, self.player)
+                        dungeon.dungeon_loop(self.player_ui)
 
                     if event.key == K_ESCAPE:
                         self.pause_loop()
@@ -42,37 +43,6 @@ class Engine:
             self.screen.fill(const.black)
             self.player_ui.update_player_ui(self.player)
             self.player.regen_health()
-            pygame.display.flip()
-
-    def dungeon_loop(self):
-        dungeon = Dungeon(self.screen, self.player)
-        combat_UI = CombatUI(self.screen, self.player, dungeon.enemy)
-
-        in_dungeon = True
-
-        while in_dungeon:
-
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    sys.exit()
-                if event.type == KEYDOWN:
-
-                    if event.key == K_k:
-                        in_dungeon = False
-
-                    if event.key == K_ESCAPE:
-                        self.pause_loop()
-
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if event.button == 1:
-                        combat_UI.left_click_handler(pygame.mouse.get_pos())
-
-            self.screen.fill(const.black)
-            self.player_ui.update_player_ui(self.player)
-
-            dungeon.update_dungeon_ui()
-            combat_UI.update_combat_ui()
-
             pygame.display.flip()
 
     def backpack_loop(self):
