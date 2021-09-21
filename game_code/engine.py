@@ -5,7 +5,6 @@ from pygame.locals import *
 from game_code.player_ui import PlayerUI
 from game_code.backpack_ui import BackpackUI
 from game_code.dungeon import Dungeon
-from game_code.combat_ui import CombatUI
 
 class Engine:
     pygame.init()
@@ -13,6 +12,7 @@ class Engine:
     screen = pygame.display.set_mode(const.screen_size)
     player_ui = PlayerUI(screen)
     player_backpack_ui = BackpackUI(screen)
+    dungeon = Dungeon(screen, player)
 
 
     def __init__(self):
@@ -21,69 +21,48 @@ class Engine:
 
     def game_loop(self):
         self.give_player_random_item(self.player.level)
-        self.player.reset_player_health()
+        self.dungeon = Dungeon(self.screen, self.player)
 
+        paused = False
         running = True
+
         while running:
-
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    sys.exit()
-                if event.type == KEYDOWN:
-                    if event.key == K_i:
-                        self.backpack_loop()
-
-                    if event.key == K_k:
-                        dungeon = Dungeon(self.screen, self.player)
-                        dungeon.dungeon_loop(self.player_ui)
-
-                    if event.key == K_ESCAPE:
-                        self.pause_loop()
-
             self.screen.fill(const.black)
-            self.player_ui.update_player_ui(self.player)
-            self.player.regen_health()
-            pygame.display.flip()
-
-    def backpack_loop(self):
-        backpack_open = True
-        while backpack_open:
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sys.exit()
                 if event.type == KEYDOWN:
                     if event.key == K_i:
-                        backpack_open = False
+                        self.player_backpack_ui.toggle()
+                    if event.key == K_k:
+                        self.dungeon.toggle()
+                    if event.key == K_ESCAPE:
+                        if paused:
+                            paused = False
+                        else:
+                            paused = True
+                    if event.key == K_h:
+                        self.player.current_health = self.player.get_player_max_health()
+
+
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 3:
                         self.player_backpack_ui.handle_right_click(self.player)
+                        self.dungeon.combat_UI.right_click_handler()
+                    if event.button == 1:
+                        self.dungeon.combat_UI.left_click_handler(pygame.mouse.get_pos())
 
-            self.screen.fill(const.black)
-            self.player_backpack_ui.update_backpack_ui(self.player)
-            self.player_ui.update_player_ui(self.player)
+            if paused:
+                font = pygame.font.SysFont("comicsansms", 64)
+                font.set_bold(True)
+                item_text = font.render("PAUSED", True, const.red)
+                self.screen.blit(item_text, (220, 100))
 
-            pygame.display.flip()
 
-    def pause_loop(self):
-
-        paused = True
-        while paused:
-            screen = pygame.display.set_mode(const.screen_size)
-
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    sys.exit()
-                if event.type == KEYDOWN:
-                    if event.key == K_ESCAPE:
-                        paused = False
-
-            font = pygame.font.SysFont("comicsansms", 64)
-            font.set_bold(True)
-            item_text = font.render("PAUSED", True, const.red)
-
-            screen.fill(const.tan)
-            screen.blit(item_text, (220, 100))
+            self.dungeon.handle_dungeon_ui()
+            self.player_backpack_ui.handle_backpack_ui(self.player)
+            self.player_ui.handle_player_ui(self.player)
 
             pygame.display.flip()
 

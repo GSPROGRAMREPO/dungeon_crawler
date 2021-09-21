@@ -7,6 +7,7 @@ class BackpackUI:
     stat_frame = None
     font = None
     item_frame = None
+    is_open = False
 
 
     def __init__(self, engine_screen):
@@ -16,10 +17,18 @@ class BackpackUI:
         self.name_font = pygame.font.SysFont("comicsansms", 16)
         self.item_frame = pygame.image.load("sprites/ui/UI_ITEM_BOX.png")
 
-    def update_backpack_ui(self, player):
-        self.display_frames()
-        self.display_items_in_backpack(player.get_backpack_items())
-        self.display_hover_information(player.get_backpack_items())
+    def toggle(self):
+        if self.is_open:
+            self.is_open = False
+        else:
+            self.is_open = True
+        return
+
+    def handle_backpack_ui(self, player):
+        if self.is_open:
+            self.display_frames()
+            self.display_items_in_backpack(player.get_backpack_items())
+            self.display_hover_information(player.get_backpack_items())
 
     def display_frames(self):
         # Blit the frames to the screen
@@ -71,10 +80,10 @@ class BackpackUI:
         return True if rect.collidepoint(pos[0], pos[1]) else False
 
     def handle_right_click(self, player):
-        mouse_pos = pygame.mouse.get_pos()
-        self.right_click_on_worn_items(player, mouse_pos)
-        self.right_click_on_backp_items(player, mouse_pos)
-        player.reset_player_health()
+        if self.is_open:
+            mouse_pos = pygame.mouse.get_pos()
+            self.right_click_on_worn_items(player, mouse_pos)
+            self.right_click_on_backp_items(player, mouse_pos)
 
         return
 
@@ -102,6 +111,7 @@ class BackpackUI:
                     if player.current_items[item.type] == None:
                         player.current_items[item.type] = item
                         player.back_pack.remove(item)
+
                 elif item.slot == 'Weapon':
                     if player.current_items[item.slot] == None:
                         player.current_items[item.slot] = item

@@ -1,6 +1,7 @@
 import pygame
 from game_code.combat_engine import CombatEngine
 from game_code import constants as const
+from game_code.loot_ui import LootUI
 
 class CombatUI():
 
@@ -14,6 +15,8 @@ class CombatUI():
     run_button_position = (325, 212)
 
     font = None
+
+    loot_ui = None
 
 
     def __init__(self, screen, player, enemy):
@@ -29,6 +32,8 @@ class CombatUI():
 
         self.font = pygame.font.SysFont("comicsansms", 12)
 
+        self.loot_ui = LootUI(screen, player.level, player.back_pack)
+
         return
 
     def update_combat_ui(self):
@@ -36,6 +41,7 @@ class CombatUI():
         self.display_run_button()
         self.display_enemy()
         self.display_enemy_health()
+        self.loot_handler()
 
     def attack_button_pressed(self):
         self.combat_engine.resolve_player_attack()
@@ -73,9 +79,14 @@ class CombatUI():
 
         # if is over run button and leftclick
             #run button is pressed
+    def right_click_handler(self):
+        if self.loot_ui.is_looting:
+            self.loot_ui.handle_right_click()
 
     def loot_handler(self):
-
+        if self.enemy.is_alive() == False and len(self.loot_ui.all_loot) > 0:
+            self.loot_ui.is_looting = True
+            self.loot_ui.display_loot()
         return
 
     @staticmethod

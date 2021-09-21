@@ -1,10 +1,8 @@
-import sys, pygame
+import pygame
 import game_code.dungeon_image_loader as image_loader
 import random
 from game_code.enemy import Enemy
 from game_code.combat_ui import  CombatUI
-from pygame.locals import *
-from game_code import constants as const
 
 
 class Dungeon():
@@ -19,6 +17,8 @@ class Dungeon():
     player = None
     enemy = None
 
+    in_dungeon = False
+
     def __init__(self, engine_screen, player):
         self.screen = engine_screen
         self.dungeon_frame = pygame.image.load("sprites/Dungeon/dungeon_frame.png")
@@ -29,42 +29,21 @@ class Dungeon():
         self.floor = random.choice(image_loader.floors)
         self.enemy = Enemy(1)
         self.player = player
+        self.combat_UI = CombatUI(self.screen, self.player, self.enemy)
+        self.in_dungeon = False
 
-    def dungeon_loop(self, player_ui):
-        player_ui = player_ui
-        dungeon = Dungeon(self.screen, self.player)
-        combat_UI = CombatUI(self.screen, self.player, dungeon.enemy)
+    def toggle(self):
+        if self.in_dungeon:
+            self.in_dungeon = False
+        else:
+            self.in_dungeon = True
+        return
 
-        in_dungeon = True
-
-        while in_dungeon:
-
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    sys.exit()
-                if event.type == KEYDOWN:
-
-                    if event.key == K_k:
-                        in_dungeon = False
-
-                    if event.key == K_ESCAPE:
-                        self.pause_loop()
-
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if event.button == 1:
-                        combat_UI.left_click_handler(pygame.mouse.get_pos())
-
-            self.screen.fill(const.black)
-            player_ui.update_player_ui(self.player)
-
-            dungeon.update_dungeon_ui()
-            combat_UI.update_combat_ui()
-
-            pygame.display.flip()
-
-    def update_dungeon_ui(self):
-        self.display_graphics()
-        self.screen.blit(self.dungeon_frame, (288, 32))
+    def handle_dungeon_ui(self):
+        if self.in_dungeon:
+            self.display_graphics()
+            self.screen.blit(self.dungeon_frame, (288, 32))
+            self.combat_UI.update_combat_ui()
 
     def display_graphics(self):
         self.screen.blit(self.background, (288, 32))

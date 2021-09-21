@@ -24,7 +24,7 @@ class PlayerUI:
             self.screen.blit(item_frame, frame)
 
 
-    def update_player_ui(self, player):
+    def handle_player_ui(self, player):
         self.display_frames()
         self.show_whats_worn(player.get_current_items())
         self.show_char_stats(player)
@@ -49,7 +49,7 @@ class PlayerUI:
         self.screen.blit(name_text, (40, 132))
 
         # Display Character HP
-        hp_text = self.font.render('HP: ' + (str(player.current_health)), True, const.black)
+        hp_text = self.font.render('HP: ' + (str(player.current_health) + ' / ' + str(player.get_player_max_health())), True, const.black)
         self.screen.blit(hp_text, (40, 158))
 
         # Display Character HP

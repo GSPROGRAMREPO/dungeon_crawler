@@ -4,7 +4,7 @@ import pygame
 
 sprite_size = (32,32)
 
-screen_size = (640,360)
+screen_size = (960, 540)
 
 black = (0,0,0)
 red = (255,0,0)
