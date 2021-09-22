@@ -1,19 +1,11 @@
 import pygame
 from game_code import constants as const
+from game_code.ui import UI
 
 
-class PlayerUI:
-    screen = None
-    stat_frame = None
-    font = None
-    name_font = None
+class PlayerUI(UI):
 
-    def __init__(self, engine_screen):
-        self.screen = engine_screen
-        self.stat_frame = pygame.image.load("sprites/ui/UI_BOX.png")
-        self.font = pygame.font.SysFont("comicsansms", 12)
-        self.name_font = pygame.font.SysFont("comicsansms", 16)
-
+    name_font = pygame.font.SysFont("comicsansms", 16)
 
     def display_frames(self):
         # Build UI frames
@@ -28,7 +20,7 @@ class PlayerUI:
         self.display_frames()
         self.show_whats_worn(player.get_current_items())
         self.show_char_stats(player)
-        self.display_hover_information(player)
+        self.display_hover_information(player.get_current_items(), const.worn_item_frame_locations)
 
     def show_whats_worn(self, current_items):
 
@@ -60,43 +52,3 @@ class PlayerUI:
         self.screen.blit(defence_text, (40, 182))
 
         return
-
-    def display_hover_information(self, player):
-        self.font.set_bold(True)
-
-        # Get the position of the mouse
-        mouse_pos = pygame.mouse.get_pos()
-        text_pos = (mouse_pos[0] + 16), (mouse_pos[1] + 8)
-
-        items_worn = player.get_current_items()
-
-        for index, item in enumerate(items_worn):
-            item_rect = pygame.Rect(const.worn_item_frame_locations[index], const.sprite_size)
-            if self.is_over(item_rect, mouse_pos):
-                if (items_worn[index] is not None):
-                    self.screen.blit(self.stat_frame, mouse_pos)
-                    # Test Code
-                    stats_to_print = items_worn[index].item_description()
-                    self.print_item_stats(stats_to_print, text_pos)
-
-
-    def print_item_stats(self, stats, text_pos):
-        y_offset = 16
-
-        for index, stat in enumerate(stats):
-            if index != 0:
-                text_pos = (text_pos[0], (text_pos[1] + (y_offset)))
-            item_text = self.font.render(str(stat), True, const.black)
-            self.screen.blit(item_text, text_pos)
-
-    @staticmethod
-    def is_over(rect, pos):
-        # function takes a tuple of (x, y) coords and a pygame.Rect object
-        # returns True if the given rect overlaps the given coords
-        # else it returns False
-        return True if rect.collidepoint(pos[0], pos[1]) else False
-
-
-
-
-

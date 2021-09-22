@@ -2,8 +2,9 @@ import pygame
 from game_code.combat_engine import CombatEngine
 from game_code import constants as const
 from game_code.loot_ui import LootUI
+from game_code.ui import UI
 
-class CombatUI():
+class CombatUI(UI):
 
     screen = None
     player = None
@@ -14,14 +15,13 @@ class CombatUI():
     attack_button_position = (288, 212)
     run_button_position = (325, 212)
 
-    font = None
 
     loot_ui = None
 
 
     def __init__(self, screen, player, enemy):
 
-        self.screen = screen
+        super().__init__(screen)
         self.player = player
         self.enemy = enemy
 
@@ -29,8 +29,6 @@ class CombatUI():
         self.run_icon = pygame.image.load('sprites/ui/run_icon.png')
 
         self.combat_engine = CombatEngine(player, enemy)
-
-        self.font = pygame.font.SysFont("comicsansms", 12)
 
         self.loot_ui = LootUI(screen, player.level, player.back_pack)
 
@@ -55,6 +53,9 @@ class CombatUI():
     def display_run_button(self):
         self.screen.blit(pygame.image.load('sprites/ui/UI_ITEM_BOX.png'), self.run_button_position)
         self.screen.blit(self.run_icon, self.run_button_position)
+
+    def run_button_pressed(self):
+        return
 
     def display_health_bars(self):
         self.display_player_health()
@@ -88,10 +89,3 @@ class CombatUI():
             self.loot_ui.is_looting = True
             self.loot_ui.display_loot()
         return
-
-    @staticmethod
-    def is_over(rect, pos):
-        # function takes a tuple of (x, y) coords and a pygame.Rect object
-        # returns True if the given rect overlaps the given coords
-        # else it returns False
-        return True if rect.collidepoint(pos[0], pos[1]) else False
