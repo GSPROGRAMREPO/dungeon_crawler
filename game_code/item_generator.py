@@ -10,7 +10,7 @@ def item_generator(player_level):
     return generated_item
 
 def armor_generator(player_level):
-    tier_dict = {1:'Copper', 2: 'Iron', 3: 'Steel'}
+    tier_dict = {1:'Regular'}
     slot = ('Armor')
     possible_types = ('Boots', 'Chest', 'Gloves', 'Helmet', 'Legs')
     type = random.choice(possible_types)
@@ -25,7 +25,7 @@ def armor_generator(player_level):
     return generated_item
 
 def weapon_generator(player_level):
-    tier_dict = {1: 'Copper', 2: 'Iron', 3: 'Steel'}
+    tier_dict = {1: 'Regular'}
     slot = ('Weapon')
     possible_types = ('Sword', 'Axe', 'Dagger')
     type = random.choice(possible_types)
@@ -38,7 +38,7 @@ def weapon_generator(player_level):
     return generated_item
 
 def accessory_generator(player_level):
-    tier_dict = {1: 'Basic'}
+    tier_dict = {1: 'Regular'}
     slot = ('Armor')
     possible_types = ('Amulet', 'Ring')
     type = random.choice(possible_types)
