@@ -2,8 +2,8 @@ import sys, pygame
 from game_code import constants as const, item_generator
 from game_code.player import Player
 from pygame.locals import *
-from game_code.player_ui import PlayerUI
-from game_code.backpack_ui import BackpackUI
+from game_code.ui_code.player_ui import PlayerUI
+from game_code.ui_code.backpack_ui import BackpackUI
 from game_code.dungeon import Dungeon
 
 class Engine:
@@ -71,20 +71,4 @@ class Engine:
         for i in range(20):
 
             test_item = item_generator.item_generator(player_level)
-
-            # Handle if weapon
-            if test_item.slot == 'Weapon':
-                if self.player.current_items[test_item.slot] is None:
-                    self.player.current_items[test_item.slot] = test_item
-                    continue
-                else:
-                    self.player.back_pack.append(test_item)
-                    continue
-            # Handle if armor
-            if self.player.current_items[test_item.type] is None:
-                self.player.current_items[test_item.type] = test_item
-                continue
-
-            else:
-                self.player.back_pack.append(test_item)
-                continue
+            self.player.back_pack.append(test_item)

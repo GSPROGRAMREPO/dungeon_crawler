@@ -46,3 +46,8 @@ class UI():
             item_text = self.font.render(str(stat), True, const.black)
             self.screen.blit(item_text, text_pos)
         return
+
+    def display_frames(self, frame_locations):
+        # Blit the frames to the screen
+        for frame in frame_locations:
+            self.screen.blit(self.item_frame, frame)

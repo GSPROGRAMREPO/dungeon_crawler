@@ -1,6 +1,6 @@
 import pygame
 from game_code import constants as const, item_generator
-from game_code.ui import UI
+from game_code.ui_code.ui import UI
 
 class LootUI(UI):
 
@@ -31,14 +31,10 @@ class LootUI(UI):
             self.all_loot.append(test_item)
 
     def display_loot(self):
-        self.display_item_frames()
+        self.display_frames(self.loot_frame_positions)
         self.display_loot_items()
         # self.display_hover_information()
         self.display_hover_information(self.all_loot, self.loot_frame_positions)
-
-    def display_item_frames(self):
-        for index, position in enumerate(self.loot_frame_positions):
-            self.screen.blit(pygame.image.load('sprites/ui/UI_ITEM_BOX.png'), position)
 
 
     def display_loot_items(self):
@@ -54,6 +50,6 @@ class LootUI(UI):
             mouse_pos = pygame.mouse.get_pos()
             for index, item in enumerate(self.all_loot):
                 item_rect = pygame.Rect(self.loot_frame_positions[index], (const.sprite_size))
-                if const.is_over(item_rect, mouse_pos):
+                if self.is_over(item_rect, mouse_pos):
                     self.player_back_pack.append(item)
                     self.all_loot.remove(item)

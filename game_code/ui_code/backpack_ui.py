@@ -1,6 +1,6 @@
 import pygame
 from game_code import constants as const
-from game_code.ui import UI
+from game_code.ui_code.ui import UI
 
 
 class BackpackUI(UI):
@@ -16,14 +16,9 @@ class BackpackUI(UI):
 
     def handle_backpack_ui(self, player):
         if self.is_open:
-            self.display_frames()
+            self.display_frames(const.bpack_frame_locations)
             self.display_items_in_backpack(player.get_backpack_items())
             self.display_hover_information(player.get_backpack_items(), const.bpack_frame_locations)
-
-    def display_frames(self):
-        # Blit the frames to the screen
-        for frame in const.bpack_frame_locations:
-            self.screen.blit(self.item_frame, frame)
 
     def display_items_in_backpack(self, items_in_back_pack):
         # Blit current Items
@@ -32,13 +27,11 @@ class BackpackUI(UI):
                 item_sprite = pygame.image.load(item.sprite_path)
                 self.screen.blit(item_sprite, const.bpack_frame_locations[index])
 
-
     def handle_right_click(self, player):
         if self.is_open:
             mouse_pos = pygame.mouse.get_pos()
             self.right_click_on_worn_items(player, mouse_pos)
             self.right_click_on_backp_items(player, mouse_pos)
-
         return
 
     def right_click_on_worn_items(self, player, mouse_pos):

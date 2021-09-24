@@ -2,7 +2,7 @@ import pygame
 import game_code.dungeon_image_loader as image_loader
 import random
 from game_code.enemy import Enemy
-from game_code.combat_ui import  CombatUI
+from game_code.ui_code.combat_ui import  CombatUI
 
 
 class Dungeon():

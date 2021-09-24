@@ -4,7 +4,7 @@ import random
 
 def item_generator(player_level):
 
-    fns = [armor_generator(player_level), weapon_generator(player_level)]
+    fns = [armor_generator(player_level), weapon_generator(player_level), accessory_generator(player_level)]
     generated_item = random.choice(fns)
 
     return generated_item
@@ -34,6 +34,16 @@ def weapon_generator(player_level):
 
     generated_item.weight = add_item_weight()
     generated_item.physical_damage = add_weapon_physical_damage()
+
+    return generated_item
+
+def accessory_generator(player_level):
+    tier_dict = {1: 'Basic'}
+    slot = ('Armor')
+    possible_types = ('Amulet', 'Ring')
+    type = random.choice(possible_types)
+    tier = tier_dict[1]
+    generated_item = Item(slot, type, tier)
 
     return generated_item
 

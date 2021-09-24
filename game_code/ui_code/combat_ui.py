@@ -1,8 +1,8 @@
 import pygame
 from game_code.combat_engine import CombatEngine
 from game_code import constants as const
-from game_code.loot_ui import LootUI
-from game_code.ui import UI
+from game_code.ui_code.loot_ui import LootUI
+from game_code.ui_code.ui import UI
 
 class CombatUI(UI):
 
